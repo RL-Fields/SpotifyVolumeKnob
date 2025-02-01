@@ -3,7 +3,8 @@
 // LVGL version: 8.3.6
 // Project name: VolumeKnobGUI
 
-#include "../ui.h"
+#include "./ui.h"
+lv_group_t *lv_group; // Declare lv_group globally
 
 void ui_SongControls_screen_init(void)
 {
@@ -19,7 +20,8 @@ void ui_SongControls_screen_init(void)
     lv_obj_set_x(ui_MusicArtwork, -90);
     lv_obj_set_y(ui_MusicArtwork, -60);
     lv_obj_set_align(ui_MusicArtwork, LV_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_MusicArtwork, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_clear_flag(ui_MusicArtwork, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_CLICK_FOCUSABLE |
+                      LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_MusicArtwork, lv_color_hex(0x801F1F), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_MusicArtwork, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
@@ -95,11 +97,22 @@ void ui_SongControls_screen_init(void)
     ui_ButtonPlayPause = lv_imgbtn_create(ui_SongControls);
     lv_imgbtn_set_src(ui_ButtonPlayPause, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_play_png, NULL);
     lv_imgbtn_set_src(ui_ButtonPlayPause, LV_IMGBTN_STATE_PRESSED, NULL, &ui_img_pause_png, NULL);
+    lv_imgbtn_set_src(ui_ButtonPlayPause, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &ui_img_pause_png, NULL);
     lv_obj_set_width(ui_ButtonPlayPause, 48);
     lv_obj_set_height(ui_ButtonPlayPause, 48);
     lv_obj_set_x(ui_ButtonPlayPause, 0);
     lv_obj_set_y(ui_ButtonPlayPause, 110);
     lv_obj_set_align(ui_ButtonPlayPause, LV_ALIGN_CENTER);
+    lv_obj_set_style_bg_color(ui_ButtonPlayPause, lv_color_hex(0x383333), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_opa(ui_ButtonPlayPause, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_outline_color(ui_ButtonPlayPause, lv_color_hex(0xF20B0B), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_outline_opa(ui_ButtonPlayPause, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_outline_width(ui_ButtonPlayPause, 4, LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_outline_pad(ui_ButtonPlayPause, 0, LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_border_color(ui_ButtonPlayPause, lv_color_hex(0xF20A0A),
+                                  LV_PART_MAIN | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+    lv_obj_set_style_border_opa(ui_ButtonPlayPause, 255, LV_PART_MAIN | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+    lv_obj_set_style_border_width(ui_ButtonPlayPause, 3, LV_PART_MAIN | LV_STATE_CHECKED | LV_STATE_FOCUSED);
 
     ui_ButtonBack = lv_imgbtn_create(ui_SongControls);
     lv_imgbtn_set_src(ui_ButtonBack, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_back_png, NULL);
@@ -108,6 +121,8 @@ void ui_SongControls_screen_init(void)
     lv_obj_set_x(ui_ButtonBack, -78);
     lv_obj_set_y(ui_ButtonBack, 110);
     lv_obj_set_align(ui_ButtonBack, LV_ALIGN_CENTER);
+    lv_obj_set_style_bg_color(ui_ButtonBack, lv_color_hex(0x383333), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_opa(ui_ButtonBack, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
 
     ui_ButtonShuffle = lv_imgbtn_create(ui_SongControls);
     lv_imgbtn_set_src(ui_ButtonShuffle, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_shuffle_png, NULL);
@@ -117,6 +132,8 @@ void ui_SongControls_screen_init(void)
     lv_obj_set_x(ui_ButtonShuffle, -148);
     lv_obj_set_y(ui_ButtonShuffle, 110);
     lv_obj_set_align(ui_ButtonShuffle, LV_ALIGN_CENTER);
+    lv_obj_set_style_bg_color(ui_ButtonShuffle, lv_color_hex(0x383333), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_opa(ui_ButtonShuffle, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
 
     ui_ButtonNext = lv_imgbtn_create(ui_SongControls);
     lv_imgbtn_set_src(ui_ButtonNext, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_forward_png, NULL);
@@ -125,15 +142,20 @@ void ui_SongControls_screen_init(void)
     lv_obj_set_x(ui_ButtonNext, 78);
     lv_obj_set_y(ui_ButtonNext, 110);
     lv_obj_set_align(ui_ButtonNext, LV_ALIGN_CENTER);
+    lv_obj_set_style_bg_color(ui_ButtonNext, lv_color_hex(0x383333), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_opa(ui_ButtonNext, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
 
     ui_ButtonRepeat = lv_imgbtn_create(ui_SongControls);
-    lv_imgbtn_set_src(ui_ButtonRepeat, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_1640048024, NULL);
+    lv_imgbtn_set_src(ui_ButtonRepeat, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_852668713, NULL);
     lv_imgbtn_set_src(ui_ButtonRepeat, LV_IMGBTN_STATE_PRESSED, NULL, &ui_img_852668713, NULL);
+    lv_imgbtn_set_src(ui_ButtonRepeat, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &ui_img_1640048024, NULL);
     lv_obj_set_width(ui_ButtonRepeat, 48);
     lv_obj_set_height(ui_ButtonRepeat, 48);
     lv_obj_set_x(ui_ButtonRepeat, 148);
     lv_obj_set_y(ui_ButtonRepeat, 110);
     lv_obj_set_align(ui_ButtonRepeat, LV_ALIGN_CENTER);
+    lv_obj_set_style_bg_color(ui_ButtonRepeat, lv_color_hex(0x383333), LV_PART_MAIN | LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_opa(ui_ButtonRepeat, 255, LV_PART_MAIN | LV_STATE_FOCUSED);
 
     ui_DisplaySource = lv_img_create(ui_SongControls);
     lv_img_set_src(ui_DisplaySource, &ui_img_sourcespotify_png);
@@ -144,8 +166,14 @@ void ui_SongControls_screen_init(void)
     lv_obj_add_flag(ui_DisplaySource, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_DisplaySource, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    lv_obj_add_event_cb(ui_ButtonPlayPause, btn_event_cb, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ButtonBack, btn_event_cb, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ButtonNext, btn_event_cb, LV_EVENT_ALL, NULL);
+    
+        // Add the buttons to the LVGL group
+    lv_group_add_obj(lv_group, ui_ButtonShuffle);
+    lv_group_add_obj(lv_group, ui_ButtonBack);
+    lv_group_add_obj(lv_group, ui_ButtonPlayPause);
+    lv_group_add_obj(lv_group, ui_ButtonNext);
+    lv_group_add_obj(lv_group, ui_ButtonRepeat);
 
+    // Set initial focus on one of the buttons (e.g., Play/Pause)
+    lv_group_focus_obj(ui_ButtonPlayPause);
 }
