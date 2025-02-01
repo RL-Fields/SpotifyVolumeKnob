@@ -356,7 +356,7 @@ disp_draw_buf = (lv_color_t*)heap_caps_malloc(sizeof(lv_color_t) * screenWidth *
   // Magnetic Encoder
   mt8901_init(5, 6);
 
-  lv_obj_set_event_cb(g_btn, btn_event_cb);
+//  lv_obj_set_event_cb(g_btn, btn_event_cb);
 
 //in original code
   //screenWidth = gfx->width();
