@@ -41,7 +41,7 @@
 #define ECO_O(y) (y > 0) ? -1 : 1
 #define ECO_STEP(x) x ? ECO_O(x) : 0
 #define GFX_BL 38
-static uint8_t cnt_5 = -1;
+//static uint8_t cnt_5 = -1;
 
 // SCREEN: ui_SongControls
 void ui_SongControls_screen_init(void);
